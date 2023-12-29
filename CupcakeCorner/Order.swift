@@ -8,7 +8,19 @@
 import Foundation
 
 @Observable
-class Order {
+class Order: Codable {
+  enum CodingKeys: String, CodingKey {
+    case _type = "type"
+    case _quantity = "quantity"
+    case _specialRequestEnabled = "specialRequestEnabled"
+    case _extraFrosting = "extraFrosting"
+    case _addSprinkles = "addSprinkles"
+    case _name = "name"
+    case _city = "city"
+    case _streetAddress = "streetAddress"
+    case _zip = "zip"
+  }
+
   static let types = ["Vanilla", "Strawberry", "Chocolate", "Rainbow"]
 
   var type = 0
@@ -22,6 +34,7 @@ class Order {
       }
     }
   }
+
   var extraFrosting = false
   var addSprinkles = false
 
@@ -45,12 +58,12 @@ class Order {
     // complicated cakes cost more
     cost += Decimal(type) / 2
 
-    // $1 per cake for extra frosting
+    // $1/cake for extra frosting
     if extraFrosting {
       cost += Decimal(quantity)
     }
 
-    // %0.50 per cake for sprinkles
+    // $0.50/cake for sprinkles
     if addSprinkles {
       cost += Decimal(quantity) / 2
     }
